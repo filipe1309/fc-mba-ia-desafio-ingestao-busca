@@ -101,13 +101,13 @@ Returns a callable that, given a question:
 ### Flow
 
 1. Calls `search_prompt()` once at startup to initialize the chain
-2. Enters interactive loop:
-   - Prints `"Faça sua pergunta (ou 'sair' para encerrar): "`
-   - Reads user input
+2. Prints `"Digite 'sair' para encerrar"` once at startup
+3. Enters interactive loop:
+   - Prints `"PERGUNTA: "` and reads user input
    - If input is `sair` → exits gracefully
    - Otherwise, calls the chain with the question
    - Prints `"RESPOSTA: {answer}"`
-3. Handles `KeyboardInterrupt` (Ctrl+C) gracefully with a goodbye message
+4. Handles `KeyboardInterrupt` (Ctrl+C) gracefully with a goodbye message
 
 ## Error Handling
 
