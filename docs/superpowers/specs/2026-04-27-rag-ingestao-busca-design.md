@@ -29,6 +29,7 @@ flowchart LR
 ## Project Structure
 
 ```
+├── Makefile                    # Convenience targets (setup, install, db-up, ingest, chat, all)
 ├── docker-compose.yml          # PostgreSQL + pgVector
 ├── requirements.txt            # Python dependencies
 ├── .env.example                # Environment variable template
@@ -118,24 +119,34 @@ Returns a callable that, given a question:
 - Database connection failure → error with connection hint
 - Empty search results → the prompt template handles this (LLM responds with "Não tenho informações")
 
+## Makefile
+
+A `Makefile` at the project root provides convenient shortcuts:
+
+| Target | Command | Description |
+|--------|---------|-------------|
+| `setup` | Create venv | `python3 -m venv venv` |
+| `install` | Install deps into venv | `venv/bin/pip install -r requirements.txt` |
+| `db-up` | Start PostgreSQL | `docker compose up -d` |
+| `db-down` | Stop PostgreSQL | `docker compose down` |
+| `ingest` | Run PDF ingestion | `venv/bin/python src/ingest.py` |
+| `chat` | Start CLI chat | `venv/bin/python src/chat.py` |
+| `all` | Full pipeline | `db-up` → `setup` → `install` → `ingest` → `chat` |
+
 ## Execution Order
 
 ```bash
-# 1. Start database
-docker compose up -d
-
-# 2. Activate virtual environment
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-
-# 3. Configure environment
+# 1. Configure environment
 cp .env.example .env
 # Edit .env with API keys and PROVIDER choice
 
-# 4. Ingest PDF
-python src/ingest.py
+# 2. Run full pipeline
+make all
 
-# 5. Start chat
-python src/chat.py
+# Or step by step:
+make db-up
+make setup
+make install
+make ingest
+make chat
 ```
