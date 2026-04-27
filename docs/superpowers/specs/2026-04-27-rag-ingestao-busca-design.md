@@ -128,16 +128,16 @@ A `Makefile` at the project root provides convenient shortcuts:
 | `setup` | Create venv | `python3 -m venv venv` |
 | `install` | Copy `.env.example` to `.env` + install deps | `cp .env.example .env && venv/bin/pip install -r requirements.txt` |
 | `db-up` | Start PostgreSQL | `docker compose up -d` |
-| `db-down` | Stop PostgreSQL | `docker compose down` |
 | `ingest` | Run PDF ingestion | `venv/bin/python src/ingest.py` |
 | `chat` | Start CLI chat | `venv/bin/python src/chat.py` |
-| `all` | Full pipeline | `db-up` → `setup` → `install` → `ingest` → `chat` |
+| `run` | Full pipeline | `db-up` → `setup` → `install` → `ingest` → `chat` |
+| `stop` | Stop PostgreSQL + cleanup | `docker compose down` |
 
 ## Execution Order
 
 ```bash
 # 1. Run full pipeline
-make all
+make run
 # Edit .env with API keys and PROVIDER choice
 
 # Or step by step:
@@ -146,4 +146,7 @@ make setup
 make install
 make ingest
 make chat
+
+# Stop everything
+make stop
 ```
