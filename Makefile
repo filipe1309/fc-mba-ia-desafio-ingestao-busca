@@ -4,7 +4,7 @@ setup:
 	python3 -m venv venv
 
 install:
-	cp .env.example .env
+	test -f .env || cp .env.example .env
 	venv/bin/pip install -r requirements.txt
 
 db-up:
