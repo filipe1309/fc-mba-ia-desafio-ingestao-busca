@@ -21,7 +21,7 @@ def get_embeddings():
     if PROVIDER == "gemini":
         from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
-        model = os.getenv("GOOGLE_EMBEDDING_MODEL", "models/embedding-001")
+        model = os.getenv("GOOGLE_EMBEDDING_MODEL", "models/gemini-embedding-001")
         return GoogleGenerativeAIEmbeddings(model=model)
 
     print(f"Erro: PROVIDER inválido: '{PROVIDER}'. Use 'openai' ou 'gemini'.")
