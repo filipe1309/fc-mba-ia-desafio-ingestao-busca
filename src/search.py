@@ -1,3 +1,9 @@
+from dotenv import load_dotenv
+
+from config import get_vector_store, get_llm
+
+load_dotenv()
+
 PROMPT_TEMPLATE = """
 CONTEXTO:
 {contexto}
@@ -25,5 +31,20 @@ PERGUNTA DO USUÁRIO:
 RESPONDA A "PERGUNTA DO USUÁRIO"
 """
 
-def search_prompt(question=None):
-    pass
+
+def search_prompt():
+    try:
+        vector_store = get_vector_store()
+        llm = get_llm()
+    except Exception as e:
+        print(f"Erro ao inicializar busca: {e}")
+        return None
+
+    def ask(question: str) -> str:
+        results = vector_store.similarity_search_with_score(question, k=10)
+        contexto = "\n\n".join(doc.page_content for doc, _score in results)
+        prompt = PROMPT_TEMPLATE.format(contexto=contexto, pergunta=question)
+        response = llm.invoke(prompt)
+        return response.content
+
+    return ask
