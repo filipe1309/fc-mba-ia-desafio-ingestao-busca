@@ -17,16 +17,18 @@ def ingest_pdf():
         print(f"Erro: arquivo PDF não encontrado: {PDF_PATH}")
         sys.exit(1)
 
-    print(f"Carregando PDF: {PDF_PATH}")
+    print("\n" + "-"*80)
+    print(f"1. Carregando PDF: {PDF_PATH}")
     loader = PyPDFLoader(PDF_PATH)
     pages = loader.load()
-    print(f"Páginas carregadas: {len(pages)}")
+    print(f"- Páginas carregadas: {len(pages)}")
 
     splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=150)
     chunks = splitter.split_documents(pages)
-    print(f"Chunks criados: {len(chunks)}")
+    print(f"- Chunks criados: {len(chunks)}")
 
-    print("Gerando embeddings e armazenando no banco de dados...")
+    print("\n" + "-"*80)
+    print("2. Gerando embeddings e armazenando no banco de dados...")
     embeddings = get_embeddings()
     try:
         PGVector.from_documents(
@@ -55,7 +57,7 @@ def ingest_pdf():
             print(f"\nErro ao gerar embeddings: {e}")
         sys.exit(1)
 
-    print(f"Ingestão concluída! {len(chunks)} chunks armazenados na coleção '{COLLECTION_NAME}'.")
+    print(f"- Ingestão concluída! {len(chunks)} chunks armazenados na coleção '{COLLECTION_NAME}'.")
 
 
 if __name__ == "__main__":

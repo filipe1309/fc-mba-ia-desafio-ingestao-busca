@@ -8,11 +8,14 @@ def main():
         print("Não foi possível iniciar o chat. Verifique os erros de inicialização.")
         return
 
-    print("Digite 'sair' para encerrar")
+    print("\n" + "-"*80)
+    print("3. Bem-vindo ao chat de busca! Faça suas perguntas sobre os documentos ingeridos.")
+    print("> Digite 'sair' para encerrar")
+    print("-"*80)
 
     while True:
         try:
-            question = input("PERGUNTA: ").strip()
+            question = input("\nPERGUNTA: ").strip()
         except KeyboardInterrupt:
             print("\nAté logo!")
             break
@@ -26,6 +29,7 @@ def main():
 
         response = chain(question)
         print(f"RESPOSTA: {response}\n")
+        print("-"*80)
 
 
 if __name__ == "__main__":
