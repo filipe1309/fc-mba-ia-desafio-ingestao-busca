@@ -6,6 +6,7 @@ setup:
 install:
 	@test -f .env || cp .env.example .env
 	@venv/bin/pip install -q -r requirements.txt
+	@source venv/bin/activate
 
 db-up:
 	@docker compose up -d
